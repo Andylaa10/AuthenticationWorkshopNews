@@ -9,4 +9,5 @@ public interface IUserRepository
     public Task<User> AddUser(User user);
     public Task UpdateUser(int userId, User user);
     public Task DeleteUser(int userId);
+    public Task RebuildDb();
 }
