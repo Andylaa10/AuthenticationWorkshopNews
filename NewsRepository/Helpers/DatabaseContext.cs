@@ -1,23 +1,24 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Models;
 
 namespace NewsRepository.Helpers;
 
-public class DatabaseContext : DbContext
+public class DatabaseContext : IdentityDbContext<IdentityUser>
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseInMemoryDatabase("NewsDb");
-    }
+    public DatabaseContext(DbContextOptions<DatabaseContext> options) :
+        base(options)
+    { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //User setup
         modelBuilder.Entity<User>()
-            .Property(u => u.UserId)
+            .Property(u => u.Id)
             .ValueGeneratedOnAdd();
         modelBuilder.Entity<User>()
-            .HasIndex(u => u.Username)
+            .HasIndex(u => u.UserName)
             .IsUnique();
         
         //Article setup
@@ -47,6 +48,8 @@ public class DatabaseContext : DbContext
             .WithMany(c => c.Comments)
             .HasForeignKey(c => c.ArticleId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        base.OnModelCreating(modelBuilder);
     }
 
     public DbSet<User> Users { get; set; }

@@ -5,7 +5,7 @@ using NewsService.Interfaces;
 namespace NewsAPI.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]/api")]
 public class NewController(IUserService userService, IArticleService articleService, ICommentService commentService) : ControllerBase
 {
     [HttpGet]

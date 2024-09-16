@@ -37,7 +37,7 @@ public class UserRepository : IUserRepository
         if(userToUpdate == null)
             throw new KeyNotFoundException("User not found");
     
-        userToUpdate.Username = user.Username;
+        userToUpdate.UserName = user.UserName;
         userToUpdate.PasswordHash = user.PasswordHash;
         _context.Users.Update(userToUpdate);
         await _context.SaveChangesAsync();
