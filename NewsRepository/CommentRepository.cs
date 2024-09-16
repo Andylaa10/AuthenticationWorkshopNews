@@ -20,12 +20,13 @@ public class CommentRepository : ICommentRepository
     
     public async Task<Comment> GetCommentById(int commentId)
     {
-        return  await _context.Comments.FindAsync(commentId);
+        return await _context.Comments.FindAsync(commentId);
     }
 
     public async Task<Comment> AddComment(Comment comment)
     {
         var newComment = await _context.Comments.AddAsync(comment);
+        await _context.SaveChangesAsync();
         return newComment.Entity;
     }
 

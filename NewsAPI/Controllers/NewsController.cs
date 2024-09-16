@@ -5,7 +5,7 @@ using NewsService.Interfaces;
 namespace NewsAPI.Controllers;
 
 [ApiController]
-[Route("/[controller]")]
+[Route("api/[controller]")]
 public class NewController(IUserService userService, IArticleService articleService, ICommentService commentService) : ControllerBase
 {
     [HttpGet]
@@ -116,7 +116,7 @@ public class NewController(IUserService userService, IArticleService articleServ
         }
     }
 
-    [HttpPost]
+    [HttpGet]
     [Route("/article/{articleId}")]
     public async Task<IActionResult> GetArticleById([FromRoute]int articleId)
     {

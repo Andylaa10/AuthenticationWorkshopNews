@@ -7,6 +7,6 @@ public class Article
     public string Content { get; set; }
     public int AuthorId { get; set; }
     public DateTime CreatedAt { get; set; }
-    public User User { get; set; }
+    public User? User { get; set; }
     public List<Comment>? Comments { get; set; }
 }

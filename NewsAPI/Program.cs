@@ -12,9 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<DatabaseContext>();
-
-//DI
 var mapper = new MapperConfiguration(options =>
 {
     // DTO to Entity
@@ -36,6 +33,8 @@ var mapper = new MapperConfiguration(options =>
 
 }).CreateMapper();
 
+builder.Services.AddSingleton(mapper);
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
@@ -43,7 +42,8 @@ builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
-builder.Services.AddSingleton(mapper);
+
+builder.Services.AddDbContext<DatabaseContext>();
 
 var app = builder.Build();
 
@@ -54,5 +54,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseAuthorization();
+
+app.MapControllers();
+
 app.Run();

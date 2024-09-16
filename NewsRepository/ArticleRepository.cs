@@ -20,12 +20,13 @@ public class ArticleRepository : IArticleRepository
     
     public async Task<Article> GetArticleById(int articleId)
     {
-        return  await _context.Articles.FindAsync(articleId);
+        return await _context.Articles.FindAsync(articleId);
     }
 
     public async Task<Article> AddArticle(Article article)
     {
         var newArticle = await _context.Articles.AddAsync(article);
+        await _context.SaveChangesAsync();
         return newArticle.Entity;
     }
 
