@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsAPI", "NewsAPI\NewsAPI.csproj", "{65CB2F21-B3D7-445A-A116-BFB5E5BF289A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsService", "NewsService\NewsService.csproj", "{A64BB6EA-7F3E-42B9-AF6D-B5C33B21F1C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsRepository", "NewsRepository\NewsRepository.csproj", "{2EFEE040-4CD7-4306-85E4-67B0399FB16D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65CB2F21-B3D7-445A-A116-BFB5E5BF289A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65CB2F21-B3D7-445A-A116-BFB5E5BF289A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65CB2F21-B3D7-445A-A116-BFB5E5BF289A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65CB2F21-B3D7-445A-A116-BFB5E5BF289A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A64BB6EA-7F3E-42B9-AF6D-B5C33B21F1C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A64BB6EA-7F3E-42B9-AF6D-B5C33B21F1C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A64BB6EA-7F3E-42B9-AF6D-B5C33B21F1C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A64BB6EA-7F3E-42B9-AF6D-B5C33B21F1C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EFEE040-4CD7-4306-85E4-67B0399FB16D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EFEE040-4CD7-4306-85E4-67B0399FB16D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EFEE040-4CD7-4306-85E4-67B0399FB16D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EFEE040-4CD7-4306-85E4-67B0399FB16D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
