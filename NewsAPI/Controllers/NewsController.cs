@@ -6,10 +6,10 @@ namespace NewsAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class NewController(IUserService userService, IArticleService articleService, ICommentService commentService) : ControllerBase
+public class NewsController(IUserService userService, IArticleService articleService, ICommentService commentService) : ControllerBase
 {
     [HttpGet]
-    [Route("/user")]
+    [Route("user")]
     public async Task<IActionResult> GetUsers()
     {
         try
@@ -24,8 +24,8 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
     
     [HttpGet]
-    [Route("/user/{userId}")]
-    public async Task<IActionResult> GetUserById([FromRoute] int userId)
+    [Route("user/{userId}")]
+    public async Task<IActionResult> GetUserById([FromRoute] string userId)
     {
         try
         {
@@ -38,24 +38,9 @@ public class NewController(IUserService userService, IArticleService articleServ
         }
     }
 
-    [HttpPost]
-    [Route("/user")]
-    public async Task<IActionResult> AddUser([FromBody] CreateUserDto user)
-    {
-        try
-        {
-            return Created("",await userService.AddUser(user));
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
     [HttpPut]
-    [Route("/user/{userId}")]
-    public async Task<IActionResult> UpdateUser([FromRoute] int userId, [FromBody] UpdateUserDto user)
+    [Route("user/{userId}")]
+    public async Task<IActionResult> UpdateUser([FromRoute] string userId, [FromBody] UpdateUserDto user)
     {
         try
         {
@@ -70,8 +55,8 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
     
     [HttpDelete]
-    [Route("/user/{userId}")]
-    public async Task<IActionResult> DeleteUser([FromRoute]int userId)
+    [Route("user/{userId}")]
+    public async Task<IActionResult> DeleteUser([FromRoute]string userId)
     {
         try
         {
@@ -86,12 +71,12 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
     
     [HttpPost]
-    [Route("/rebuild")]
+    [Route("rebuild")]
     public async Task<IActionResult> RebuildDb()
     {
         try
         {
-            await userService.RebuildDb();
+            await articleService.RebuildDb();
             return Ok();
         }
         catch (Exception e)
@@ -102,7 +87,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpGet]
-    [Route("/article")]
+    [Route("article")]
     public async Task<IActionResult> GetArticles()
     {
         try
@@ -117,7 +102,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpGet]
-    [Route("/article/{articleId}")]
+    [Route("article/{articleId}")]
     public async Task<IActionResult> GetArticleById([FromRoute]int articleId)
     {
         try
@@ -132,7 +117,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
     
     [HttpPost]
-    [Route("/article")]
+    [Route("article")]
     public async Task<IActionResult> AddArticle([FromBody]CreateArticleDto article)
     {
         try
@@ -147,7 +132,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpPut]
-    [Route("/article/{articleId}")]
+    [Route("article/{articleId}")]
     public async Task<IActionResult> UpdateArticle([FromRoute]int articleId, [FromBody]UpdateArticleDto article)
     {
         try
@@ -163,7 +148,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpDelete]
-    [Route("/article/{articleId}")]
+    [Route("article/{articleId}")]
     public async Task<IActionResult> DeleteArticle([FromRoute]int articleId)
     {
         try
@@ -179,7 +164,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpGet]
-    [Route("/comment")]
+    [Route("comment")]
     public async Task<IActionResult> GetComments()
     {
         try
@@ -194,7 +179,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpGet]
-    [Route("/comment/{commentId}")]
+    [Route("comment/{commentId}")]
     public async Task<IActionResult> GetCommentById([FromRoute] int commentId)
     {
         try
@@ -209,7 +194,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpPost]
-    [Route("/comment")]
+    [Route("comment")]
     public async Task<IActionResult> AddComment([FromBody] CreateCommentDto comment)
     {
         try
@@ -224,7 +209,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpPut]
-    [Route("/comment/{commentId}")]
+    [Route("comment/{commentId}")]
     public async Task<IActionResult> UpdateComment([FromRoute] int commentId, [FromBody] UpdateCommentDto comment)
     {
         try
@@ -240,7 +225,7 @@ public class NewController(IUserService userService, IArticleService articleServ
     }
 
     [HttpDelete]
-    [Route("/comment/{commentId}")]
+    [Route("comment/{commentId}")]
     public async Task<IActionResult> DeleteComment([FromRoute] int commentId)
     {
         try

@@ -39,4 +39,8 @@ public class ArticleService(IArticleRepository articleRepository, IMapper mapper
             throw new ArgumentException("Article id must be greater than 0");
         await articleRepository.DeleteArticle(articleId);
     }
+    public async Task RebuildDb()
+    {
+        await articleRepository.RebuildDb();
+    }
 }

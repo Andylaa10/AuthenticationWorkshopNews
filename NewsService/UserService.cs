@@ -13,34 +13,24 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         return mapper.Map<IEnumerable<GetUserDto>>(await userRepository.GetUsers());
     }
 
-    public async Task<GetUserDto> GetUserById(int userId)
+    public async Task<GetUserDto> GetUserById(string userId)
     {
-        if (userId < 1)
-            throw new ArgumentException("User id must be greater than 0");
+        if (userId == null)
+            throw new ArgumentException("User id cannot be null");
         return mapper.Map<GetUserDto>(await userRepository.GetUserById(userId));
     }
 
-    public async Task<GetUserDto> AddUser(CreateUserDto user)
+    public async Task UpdateUser(string userId, UpdateUserDto user)
     {
-        return mapper.Map<GetUserDto>(await userRepository.AddUser(mapper.Map<User>(user)));
-    }
-
-    public async Task UpdateUser(int userId, UpdateUserDto user)
-    {
-        if (userId < 1)
-            throw new ArgumentException("User id must be greater than 0");
+        if (userId == null)
+            throw new ArgumentException("User id cannot be null");
         await userRepository.UpdateUser(userId, mapper.Map<User>(user));
     }
 
-    public async Task DeleteUser(int userId)
+    public async Task DeleteUser(string userId)
     {
-        if (userId < 1)
-            throw new ArgumentException("User id must be greater than 0");
+        if (userId == null)
+            throw new ArgumentException("User id cannot be null");
         await userRepository.DeleteUser(userId);
-    }
-
-    public async Task RebuildDb()
-    {
-        await userRepository.RebuildDb();
     }
 }

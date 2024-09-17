@@ -9,5 +9,6 @@ public interface IArticleRepository
     public Task<Article> AddArticle(Article article);
     public Task UpdateArticle(int articleId, Article article);
     public Task DeleteArticle(int articleId);
+    public Task RebuildDb();
 
 }

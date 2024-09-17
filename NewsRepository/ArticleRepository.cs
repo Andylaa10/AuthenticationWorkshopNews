@@ -53,4 +53,10 @@ public class ArticleRepository : IArticleRepository
         _context.Articles.Remove(articleToDelete);
         await _context.SaveChangesAsync();
     }
+
+    public async Task RebuildDb()
+    {
+        await _context.Database.EnsureDeletedAsync();
+        await _context.Database.EnsureCreatedAsync();
+    }
 }

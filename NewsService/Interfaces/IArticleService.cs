@@ -10,4 +10,6 @@ public interface IArticleService
     public Task<Article> AddArticle(CreateArticleDto article);
     public Task UpdateArticle(int articleId, UpdateArticleDto article);
     public Task DeleteArticle(int articleId);
+    public Task RebuildDb();
+
 }
