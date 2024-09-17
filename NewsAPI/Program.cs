@@ -1,5 +1,4 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using NewsRepository;
@@ -49,7 +48,7 @@ builder.Services.AddDbContext<DatabaseContext>(options => options.UseInMemoryDat
 
 builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+builder.Services.AddIdentityApiEndpoints<User>()
     .AddEntityFrameworkStores<DatabaseContext>();
 
 var app = builder.Build();
@@ -61,7 +60,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.MapSwagger().RequireAuthorization();
-app.MapIdentityApi<IdentityUser>();
+app.MapIdentityApi<User>();
 
 app.UseAuthorization();
 
