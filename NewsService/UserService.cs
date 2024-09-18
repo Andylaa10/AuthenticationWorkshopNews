@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Models;
 using NewsRepository.Interfaces;
 using NewsService.Dtos;
@@ -32,5 +33,17 @@ public class UserService(IUserRepository userRepository, IMapper mapper) : IUser
         if (userId == null)
             throw new ArgumentException("User id cannot be null");
         await userRepository.DeleteUser(userId);
+    }
+
+    public async Task<IEnumerable<IdentityRole>> GetRoles()
+    {
+        return await userRepository.GetRoles();
+    }
+
+    public async Task<IEnumerable<string>> GetUserRoles(string userId)
+    {
+        if (userId == null)
+            throw new ArgumentException("User id cannot be null");
+        return await userRepository.GetUserRoles(userId);
     }
 }

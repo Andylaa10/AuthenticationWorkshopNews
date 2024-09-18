@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NewsService.Dtos;
 using NewsService.Interfaces;
 
 namespace NewsAPI.Controllers;
 
-[ApiController]
 [Route("api/[controller]")]
+[ApiController]
 public class NewsController(IUserService userService, IArticleService articleService, ICommentService commentService) : ControllerBase
 {
     [HttpGet]
@@ -69,8 +70,39 @@ public class NewsController(IUserService userService, IArticleService articleSer
             throw;
         }
     }
+
+    [HttpGet]
+    [Route("user/roles")]
+    public async Task<IActionResult> GetRoles()
+    {
+        try
+        {
+            return Ok(await userService.GetRoles());
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+    
+    [HttpGet]
+    [Route("user/role/{userId}")]
+    public async Task<IActionResult> GetUserRoles([FromRoute] string userId)
+    {
+        try
+        {
+            return Ok(await userService.GetUserRoles(userId));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
     
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [Route("rebuild")]
     public async Task<IActionResult> RebuildDb()
     {
@@ -85,7 +117,7 @@ public class NewsController(IUserService userService, IArticleService articleSer
             throw;
         }
     }
-
+    
     [HttpGet]
     [Route("article")]
     public async Task<IActionResult> GetArticles()
@@ -117,6 +149,7 @@ public class NewsController(IUserService userService, IArticleService articleSer
     }
     
     [HttpPost]
+    [Authorize(Roles = "Writer,Admin")]
     [Route("article")]
     public async Task<IActionResult> AddArticle([FromBody]CreateArticleDto article)
     {
@@ -132,6 +165,7 @@ public class NewsController(IUserService userService, IArticleService articleSer
     }
 
     [HttpPut]
+    [Authorize(Roles = "Writer,Admin,Editor")]
     [Route("article/{articleId}")]
     public async Task<IActionResult> UpdateArticle([FromRoute]int articleId, [FromBody]UpdateArticleDto article)
     {
@@ -148,6 +182,7 @@ public class NewsController(IUserService userService, IArticleService articleSer
     }
 
     [HttpDelete]
+    [Authorize(Roles = "Editor,Admin")]
     [Route("article/{articleId}")]
     public async Task<IActionResult> DeleteArticle([FromRoute]int articleId)
     {
@@ -194,6 +229,7 @@ public class NewsController(IUserService userService, IArticleService articleSer
     }
 
     [HttpPost]
+    [Authorize(Roles = "Subscriber,Admin")]
     [Route("comment")]
     public async Task<IActionResult> AddComment([FromBody] CreateCommentDto comment)
     {
@@ -207,7 +243,7 @@ public class NewsController(IUserService userService, IArticleService articleSer
             throw;
         }
     }
-
+    
     [HttpPut]
     [Route("comment/{commentId}")]
     public async Task<IActionResult> UpdateComment([FromRoute] int commentId, [FromBody] UpdateCommentDto comment)
@@ -225,6 +261,7 @@ public class NewsController(IUserService userService, IArticleService articleSer
     }
 
     [HttpDelete]
+    [Authorize(Roles = "Editor,Admin")]
     [Route("comment/{commentId}")]
     public async Task<IActionResult> DeleteComment([FromRoute] int commentId)
     {

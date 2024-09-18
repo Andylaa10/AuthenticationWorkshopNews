@@ -6,7 +6,7 @@ using NewsRepository.Interfaces;
 
 namespace NewsRepository;
 
-public class UserRepository(UserManager<User> userManager) : IUserRepository
+public class UserRepository(UserManager<User> userManager, RoleManager<IdentityRole> roleManager) : IUserRepository
 {
     public async Task<IEnumerable<User>> GetUsers()
     {
@@ -37,5 +37,16 @@ public class UserRepository(UserManager<User> userManager) : IUserRepository
             throw new KeyNotFoundException("User not found");
     
         await userManager.DeleteAsync(userToDelete);
+    }
+
+    public async Task<IEnumerable<IdentityRole>> GetRoles()
+    {
+        return await roleManager.Roles.ToListAsync();
+    }
+
+    public async Task<IEnumerable<string>> GetUserRoles(string userId)
+    {
+        var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        return await userManager.GetRolesAsync(user);
     }
 }

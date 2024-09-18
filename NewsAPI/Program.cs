@@ -1,5 +1,7 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Models;
 using NewsRepository;
 using NewsRepository.Helpers;
@@ -10,9 +12,28 @@ using NewsService.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("AppDB");
+    options.UseSqlite(connectionString);
+    // options.UseInMemoryDatabase("NewsDB");
+});
+builder.Services.AddScoped<SeedData>();
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+
 var mapper = new MapperConfiguration(options =>
 {
     // DTO to Entity
@@ -36,34 +57,28 @@ var mapper = new MapperConfiguration(options =>
 
 builder.Services.AddSingleton(mapper);
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IArticleRepository, ArticleRepository>();
-builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IArticleService, ArticleService>();
-builder.Services.AddScoped<ICommentService, CommentService>();
-
-builder.Services.AddDbContext<DatabaseContext>(options => options.UseInMemoryDatabase("NewsDB"));
-
-builder.Services.AddAuthorization();
-
-builder.Services.AddIdentityApiEndpoints<User>()
+builder.Services.AddIdentityApiEndpoints<User>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+    })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<DatabaseContext>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    scope.ServiceProvider.GetRequiredService<SeedData>().PopulateData().Wait();
 }
-app.MapSwagger().RequireAuthorization();
-app.MapIdentityApi<User>();
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapIdentityApi<User>();
 
 app.Run();

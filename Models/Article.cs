@@ -8,5 +8,5 @@ public class Article
     public string AuthorId { get; set; }
     public DateTime CreatedAt { get; set; }
     public User? User { get; set; }
-    public List<Comment>? Comments { get; set; }
+    public virtual List<Comment>? Comments { get; set; }
 }

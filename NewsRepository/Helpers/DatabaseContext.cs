@@ -28,7 +28,7 @@ public class DatabaseContext : IdentityDbContext<IdentityUser>
         
         modelBuilder.Entity<Article>()
             .HasOne(a => a.User)
-            .WithMany(a => a.Articles)
+            .WithMany(u => u.Articles)
             .HasForeignKey(a => a.AuthorId)
             .OnDelete(DeleteBehavior.Cascade);
         
@@ -39,7 +39,7 @@ public class DatabaseContext : IdentityDbContext<IdentityUser>
 
         modelBuilder.Entity<Comment>()
             .HasOne(c => c.User)
-            .WithMany(c => c.Comments)
+            .WithMany(u => u.Comments)
             .HasForeignKey(c => c.UserId)
             .OnDelete(DeleteBehavior.Cascade);
         

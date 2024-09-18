@@ -1,0 +1,10 @@
+services:
+  news-service:
+    image: newsservice
+    build:
+      context: .
+      dockerfile: '/NewsAPI/Dockerfile'
+    ports:
+      - '7085:8080'
+    environment:
+      - ConnectionStrings__AppDb=Data Source=./db.sqlite
