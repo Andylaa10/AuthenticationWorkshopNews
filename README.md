@@ -55,7 +55,7 @@ GET api/News/comment/{commentId} (Get comment by id)
 PUT api/News/comment/{commentId} (Update a comment)
 ```
 ### Protected Endpoints
-#### Admin
+#### Roles: (Admin, Editor, Writer, Subscriber)
 ```
 POST api/News/Rebuild (Rebuilds the db) (Admin)
 POST api/News/article (Create an articles) (Admin, Writer)
